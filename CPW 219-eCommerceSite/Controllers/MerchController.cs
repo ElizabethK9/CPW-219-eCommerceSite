@@ -64,6 +64,7 @@ namespace CPW_219_eCommerceSite.Controllers
                 _context.Merchendise.Update(merchModel);
                 await _context.SaveChangesAsync();
 
+                TempData["Message"] = $"{merchModel.Title} was updated successfully";
                 return RedirectToAction("Index");   
             }
             return View(merchModel);
