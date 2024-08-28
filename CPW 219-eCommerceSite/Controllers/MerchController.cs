@@ -94,8 +94,19 @@ namespace CPW_219_eCommerceSite.Controllers
                 return RedirectToAction("Index");
             }
             TempData["Message"] = "This Merchendise Was deleted Already";
-            return RedirectToAction("Index");
-            
+            return RedirectToAction("Index"); 
+        }
+
+        public async Task<IActionResult> Details(int id)
+        {
+            Merch? merchDetails = await _context.Merchendise.FindAsync(id);
+
+            if (merchDetails == null)
+            {
+                return NotFound();
+            }
+
+            return View(merchDetails);
         }
     }
 }
