@@ -20,12 +20,12 @@ namespace CPW_219_eCommerceSite.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Merch merch)
+        public async Task<IActionResult> Create(Merch merch)
         {
             if (ModelState.IsValid)
             {
                 _context.Merchendise.Add(merch);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
 
                 ViewData["Message"] = $"{merch.Title} was added successfully!";
                 //Show succes message on page
