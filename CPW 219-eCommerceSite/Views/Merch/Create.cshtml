@@ -3,7 +3,14 @@
 @{
     ViewData["Title"] = "Create New Merch item";
 }
+@if (ViewData["Message"] != null)
+{
+    <div class="alert alert-success">
+        <h1>@ViewData["Message"]</h1>
+    </div>
+}
 
+else { 
 <h1>Create New Merch Items</h1>
 
 
@@ -28,6 +35,7 @@
         </form>
     </div>
 </div>
+}
 
 <div>
     <a asp-action="Index">Back to List</a>
