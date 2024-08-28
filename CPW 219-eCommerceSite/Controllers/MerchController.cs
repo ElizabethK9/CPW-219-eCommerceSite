@@ -1,6 +1,7 @@
 ﻿using CPW_219_eCommerceSite.Data;
 using CPW_219_eCommerceSite.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CPW_219_eCommerceSite.Controllers
 {
@@ -11,6 +12,15 @@ namespace CPW_219_eCommerceSite.Controllers
         public MerchController(MerchKnicknacksContext context)
         {
             _context = context;
+        }
+
+        public async Task<IActionResult> Index() 
+        { 
+            
+           // List<Merch> Merchendise = _context.Merchendise.ToList();
+           List<Merch> Merchendise = await (from merch  in _context.Merchendise select merch) .ToListAsync();
+
+            return View(Merchendise);
         }
 
         [HttpGet]
