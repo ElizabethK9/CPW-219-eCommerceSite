@@ -1,6 +1,7 @@
 ﻿using CPW_219_eCommerceSite.Data;
 using CPW_219_eCommerceSite.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient.DataClassification;
 using Microsoft.EntityFrameworkCore;
 
 namespace CPW_219_eCommerceSite.Controllers
@@ -43,6 +44,30 @@ namespace CPW_219_eCommerceSite.Controllers
             }
 
             return View(merch);
+        }
+
+        public async Task<IActionResult> Edit(InformationType id)
+        {
+            Merch? merchToEdit = await _context.Merchendise.FindAsync(id);
+            if (merchToEdit == null)
+            {
+                return NotFound();
+            }
+            return View(merchToEdit);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(Merch merchModel)
+        {
+            if(ModelState.IsValid)
+            {
+                _context.Merchendise.Update(merchModel);
+                await _context.SaveChangesAsync();
+
+                TempData["Message"] = $"{merchModel.Title} was updated successfully";
+                return RedirectToAction("Index");   
+            }
+            return View(merchModel);
         }
     }
 }
