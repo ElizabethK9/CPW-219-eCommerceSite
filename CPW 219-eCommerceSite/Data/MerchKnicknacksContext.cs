@@ -12,5 +12,7 @@ namespace CPW_219_eCommerceSite.Data
         }
 
         public DbSet<Merch> Merchendise { get; set; }
+
+        public DbSet<Member> Members { get; set; }
     }
 }
