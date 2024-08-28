@@ -69,5 +69,33 @@ namespace CPW_219_eCommerceSite.Controllers
             }
             return View(merchModel);
         }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            Merch? merchToDelete = await _context.Merchendise.FindAsync(id);
+
+            if(merchToDelete == null)
+            {
+                return NotFound();
+            }
+            return View(merchToDelete);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> DeleteConfirmed(int id) 
+        {
+            Merch merchToDelete = await _context.Merchendise.FindAsync(id);
+
+            if(merchToDelete != null)
+            {
+                _context.Merchendise.Remove(merchToDelete);
+                await _context.SaveChangesAsync();
+                TempData["Message"] = merchToDelete.Title + " was deleted successfully.";
+                return RedirectToAction("Index");
+            }
+            TempData["Message"] = "This Merchendise Was deleted Already";
+            return RedirectToAction("Index");
+            
+        }
     }
 }
