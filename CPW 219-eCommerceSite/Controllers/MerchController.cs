@@ -55,5 +55,18 @@ namespace CPW_219_eCommerceSite.Controllers
             }
             return View(merchToEdit);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(Merch merchModel)
+        {
+            if(ModelState.IsValid)
+            {
+                _context.Merchendise.Update(merchModel);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction("Index");   
+            }
+            return View(merchModel);
+        }
     }
 }
