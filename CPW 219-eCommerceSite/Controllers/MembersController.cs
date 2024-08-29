@@ -35,11 +35,53 @@ namespace CPW_219_eCommerceSite.Controllers
                 _context.Members.Add(newMember);
                 await _context.SaveChangesAsync();
 
+                LogUserIn(newMember.Email);
+
                 return RedirectToAction("Index", "Home");
             }
             return View(regModel);
         }
 
-       
+        [HttpGet]
+
+       public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public  IActionResult Login(LoginViewModel loginModel) 
+        { 
+            if (!ModelState.IsValid)
+            {
+                //check db
+                Member? m = (from member in _context.Members
+                            where member.Email == loginModel.Email &&
+                             member.Password == loginModel.Password
+                            select member).SingleOrDefault();
+                if (m != null)
+                {
+                    LogUserIn(loginModel.Email);
+                    return RedirectToAction("Index", "Home");
+                }
+
+                ModelState.AddModelError(string.Empty, "Credentials not found!");
+              
+                //if not, error
+                return View(loginModel);
+            }
+            return View(loginModel);
+        }
+
+        private void LogUserIn(string email)
+        {
+            HttpContext.Session.SetString("Email", email);
+        }
+
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index", "Home");
+        }
     }
 }
