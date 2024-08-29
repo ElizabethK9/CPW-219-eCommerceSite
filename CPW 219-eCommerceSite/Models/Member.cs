@@ -5,6 +5,7 @@ namespace CPW_219_eCommerceSite.Models
     public class Member
     {
         [Key]
+
         public int MemberId {  get; set; }
         
         public string Email { get; set; }
@@ -26,6 +27,7 @@ namespace CPW_219_eCommerceSite.Models
         [Required]
         [Compare(nameof(Email))]
         [Display(Name = "Confirm Email")]
+        [DataType(DataType.Password)]
         public string ConfirmEmail { get; set; }
 
         [Required]
@@ -35,6 +37,7 @@ namespace CPW_219_eCommerceSite.Models
         [Required]
         [Compare(nameof(Password))]
         [Display(Name = "Confirm Password")]
+        [DataType(DataType.Password)]
         public string ConfirmPassword { get; set; }
     }
 }
