@@ -35,6 +35,8 @@ namespace CPW_219_eCommerceSite.Controllers
                 _context.Members.Add(newMember);
                 await _context.SaveChangesAsync();
 
+                LogUserIn(newMember.Email);
+
                 return RedirectToAction("Index", "Home");
             }
             return View(regModel);
@@ -59,7 +61,7 @@ namespace CPW_219_eCommerceSite.Controllers
                             select member).SingleOrDefault();
                 if (m != null)
                 {
-                    HttpContext.Session.SetString("Email", loginModel.Email);
+                    LogUserIn(loginModel.Email);
                     return RedirectToAction("Index", "Home");
                 }
 
@@ -69,6 +71,17 @@ namespace CPW_219_eCommerceSite.Controllers
                 return View(loginModel);
             }
             return View(loginModel);
+        }
+
+        private void LogUserIn(string email)
+        {
+            HttpContext.Session.SetString("Email", email);
+        }
+
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index", "Home");
         }
     }
 }
