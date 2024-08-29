@@ -44,7 +44,10 @@ namespace CPW_219_eCommerceSite.Models
 
     public class LoginViewModel
     {
+        [Key]
+
         [Required]
+        [EmailAddress]
         public string Email { get; set; } = null!;
 
         [Required]
